@@ -948,6 +948,11 @@ void Zone_HandlePlayerSwap(void)
                 layerPlanes[l] = DRAWGROUP_COUNT;
         }
 
+#if RETRO_BIG_ENDIAN
+        layerIDs[2 * p] = __builtin_bswap32(layerIDs[2 * p]);
+        layerIDs[2 * p + 1] = __builtin_bswap32(layerIDs[2 * p + 1]);
+#endif
+        
         EntityCamera *camera = player->camera;
         RSDK.CopyEntity(&Zone->entityStorage[8 + p], camera, false);
         Zone->screenPosX[p] = ScreenInfo[camera->screenID].position.x;
